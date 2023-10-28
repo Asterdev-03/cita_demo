@@ -7,7 +7,7 @@ import StyledComponentsRegistry from "@lib/AntdRegistry";
 import { ConfigProvider } from "antd";
 
 export const metadata = {
-  title: "CITA",
+  title: "CITA | Home",
   description: "Conversational Interview and Training Application",
 };
 

@@ -1,11 +1,10 @@
-import React from "react";
+import Image from "next/image";
 
-const LandingPage = () => {
+export default function LandingPage() {
   return (
     <div>
+      <Image src="/images/fulllogo.png" height={200} width={400} />
       <div>This will be landing page</div>
     </div>
   );
-};
-
-export default LandingPage;
+}
