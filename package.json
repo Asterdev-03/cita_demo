@@ -17,15 +17,15 @@
     "cloudinary": "^1.41.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3",
-    "next": "13.5.5",
+    "next": "^14.0.0",
     "next-auth": "^4.24.4",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "13.5.5",
+    "eslint-config-next": "^14.0.0",
     "postcss": "^8",
     "tailwindcss": "^3"
   }

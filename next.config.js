@@ -1,12 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
   },
-  experimental: {
-    serverActions: true,
-    serverComponentsExternalPackages: ["cloudinary"],
-  },
+  // experimental: {
+  //   serverActions: true,
+  //   serverComponentsExternalPackages: ["cloudinary"],
+  // },
 };
 
 module.exports = nextConfig;
