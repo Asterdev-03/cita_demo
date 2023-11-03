@@ -9,7 +9,6 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
-        "playfair-display": ["Playfair Display", "serif"],
       },
       screens: {
         xs: "480px",
