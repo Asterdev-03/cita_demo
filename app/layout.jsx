@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
 import "@styles/globals.css";
-import AuthContextProvider from "@config/AuthContextProvider";
+import AuthContextProvider from "@lib/AuthContextProvider";
 
 // This config is only required for antd and not related to project.
 import StyledComponentsRegistry from "@lib/AntdRegistry";
