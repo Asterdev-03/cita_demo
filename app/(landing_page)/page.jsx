@@ -3,8 +3,6 @@ import Image from "next/image";
 export default function LandingPage() {
   return (
     <div>
-      {/* <Image src="/images/fulllogo.png" height={200} width={400} />
-      <div>This will be landing page</div> */}
       <div className="flex flex-col min-h-screen bg-white">
         <div className="bg-gradient-to-r from-blue-400 to-purple-400 flex flex-col items-center justify-center h-screen">
           <h1 className="text-white text-6xl font-bold">CITA</h1>
@@ -25,6 +23,7 @@ export default function LandingPage() {
                 creative content, and answer your questions in an informative
                 way.
               </p>
+              <Image src="/images/fulllogo.png" height={200} width={400} />
             </div>
             <div className="w-1/3 p-4">
               <h3 className="text-2xl font-bold">Answer questions</h3>
