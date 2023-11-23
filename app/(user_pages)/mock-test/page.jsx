@@ -18,15 +18,21 @@ import {
 } from "@ant-design/icons";
 import { Modal } from "antd";
 
-// import Webcam from "react-webcam";
+import Webcam from "react-webcam";
 
 export default function MockTestPage() {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [videoStatus, setVideoStatus] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [videoStream, setVideoStream] = useState(null);
 
   const divRef = useRef(null);
   const { transcript, resetTranscript } = useSpeechRecognition();
+  const webcamRef = useRef(null);
+
+  useEffect(() => {
+    startVideoStream();
+  }, []);
 
   useEffect(() => {
     // Scroll to the bottom when the transcript incresses
@@ -57,6 +63,22 @@ export default function MockTestPage() {
     const formattedSeconds = String(remainingSeconds).padStart(2, "0");
     return `${formattedMinutes}:${formattedSeconds}`;
   };
+
+  async function startVideoStream() {
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
+
+      // Set video to be displayed based on the actual width and height of the direct video from camera
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
+    }
+  }
 
   function handleEndSession() {
     setEndSession(true);
@@ -141,6 +163,7 @@ export default function MockTestPage() {
                 sizes="100vw"
                 className="object-cover"
               />
+
               <div className="absolute min-h-[50px] h-fit bottom-0 text-center w-full backdrop-blur-md bg-gray-50/50 p-4">
                 <p>
                   What are your expectations on working at our company in the
@@ -148,9 +171,19 @@ export default function MockTestPage() {
                 </p>
               </div>
             </div>
-            <div className="h-[450px] w-1/3 bg-gray-100 rounded-2xl flex flex-col">
-              <div className="h-4/5 flex items-center justify-center">
-                <Avatar size={200} icon={<UserOutlined />} />
+            <div className="h-[450px] w-1/3 bg-gray-100 rounded-2xl flex flex-col overflow-hidden">
+              <div className="relative h-4/5 flex items-center justify-center">
+                {videoStatus ? (
+                  <Webcam
+                    ref={webcamRef}
+                    muted={true}
+                    audio={false}
+                    className="h-full w-full overflow-hidden object-cover"
+                    style={{ transform: "scaleX(-1)" }}
+                  />
+                ) : (
+                  <Avatar size={200} icon={<UserOutlined />} />
+                )}
               </div>
               <div className="flex items-center justify-center grow gap-x-5">
                 <button
@@ -159,7 +192,6 @@ export default function MockTestPage() {
                 >
                   {voiceStatus ? <AudioOutlined /> : <AudioMutedOutlined />}
                 </button>
-
                 <button
                   className="bottom-0 bg-blue-400 hover:bg-blue-500 transition duration-300 h-12 w-12 rounded-full"
                   onClick={handleVideo}
