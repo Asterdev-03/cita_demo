@@ -22,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-speech-recognition": "^3.10.0",
     "react-webcam": "^7.2.0",
+    "regenerator-runtime": "^0.14.0",
     "sharp": "^0.32.6"
   },
   "devDependencies": {

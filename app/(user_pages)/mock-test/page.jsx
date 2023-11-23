@@ -1,5 +1,6 @@
 "use client";
 
+import "regenerator-runtime/runtime";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import SpeechRecognition, {
@@ -15,12 +16,14 @@ import {
   SendOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { Modal } from "antd";
 
 // import Webcam from "react-webcam";
 
 export default function MockTestPage() {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [videoStatus, setVideoStatus] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const divRef = useRef(null);
   const { transcript, resetTranscript } = useSpeechRecognition();
@@ -55,19 +58,21 @@ export default function MockTestPage() {
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
-  const handleEndSession = () => {
+  function handleEndSession() {
     setEndSession(true);
-    resetTranscript();
-    setVoiceStatus(false);
     setVideoStatus(false);
-  };
+    setVoiceStatus(false);
+    SpeechRecognition.stopListening();
+    resetTranscript();
+    setIsModalOpen(true);
+  }
 
-  const handleSend = () => {
+  function handleSend() {
     resetTranscript();
     setVoiceStatus(false);
-  };
+  }
 
-  const handleVoice = () => {
+  function handleVoice() {
     if (!voiceStatus) {
       setVoiceStatus(true);
       SpeechRecognition.startListening({
@@ -78,20 +83,15 @@ export default function MockTestPage() {
       setVoiceStatus(false);
       SpeechRecognition.stopListening();
     }
-  };
+  }
 
-  const handleVideo = () => {
+  function handleVideo() {
     if (!videoStatus) {
       setVideoStatus(true);
-      SpeechRecognition.startListening({
-        continuous: true,
-        language: "en-IN",
-      });
     } else {
       setVideoStatus(false);
-      SpeechRecognition.stopListening();
     }
-  };
+  }
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-100">
@@ -120,8 +120,8 @@ export default function MockTestPage() {
               <h4 className="font-black text-[50px]">{formatTime(time)}</h4>
             </div>
             <button
-              className={`p-3 bg-red-500 ${
-                endSession ? `bg-gray-300` : `hover:bg-red-400`
+              className={`p-3 ${
+                endSession ? `bg-gray-300` : `bg-red-500 hover:bg-red-400`
               } transition duration-300 text-white rounded-full`}
               onClick={handleEndSession}
               disabled={endSession}
@@ -182,6 +182,16 @@ export default function MockTestPage() {
           </div>
         </div>
       </div>
+      <Modal
+        title={
+          <h2 className="text-2xl font-semibold font-poppins">Session Ended</h2>
+        }
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        okButtonProps={{ className: "bg-blue-500" }}
+        // footer={null}
+        // width="70vw"
+      ></Modal>
     </section>
   );
 }
