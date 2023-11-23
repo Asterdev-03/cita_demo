@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 // import React, { useState, useEffect, useRef } from "react";
 // import Webcam from "react-webcam";
@@ -55,6 +56,34 @@ import Image from "next/image";
 // }
 
 export default function MockTestPage() {
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  const startingMinutes = 1;
+  let time = startingMinutes * 60;
+
+  useEffect(() => {
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    // Cleanup function to clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function updateCountdown() {
+    const remainingMinutes = Math.floor(time / 60);
+    const remainingSeconds = time % 60;
+
+    const formattedSeconds =
+      remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
+
+    setMinutes(remainingMinutes);
+    setSeconds(formattedSeconds);
+
+    if (time > 0) {
+      time--;
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-100">
       <nav className="p-3 flex justify-between items-center bg-white/70 border border-b-3 border-gray-200">
@@ -73,7 +102,9 @@ export default function MockTestPage() {
             </p>
             <div>
               <h3 className="font-semi-bold text-lg">Time elapsed:</h3>
-              <h4 className="font-black text-[50px]">00:23:46</h4>
+              <h4 className="font-black text-[50px]">
+                {minutes}:{seconds}
+              </h4>
             </div>
             <button className="p-3 bg-red-400 hover:bg-red-300 transition duration-300 text-white rounded-full">
               End Session
