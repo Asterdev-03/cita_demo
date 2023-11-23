@@ -21,22 +21,51 @@ import {
 export default function MockTestPage() {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [videoStatus, setVideoStatus] = useState(false);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
 
   const divRef = useRef(null);
   const { transcript, resetTranscript } = useSpeechRecognition();
 
   useEffect(() => {
-    const intervalId = setInterval(updateCountdown, 1000);
-    // Cleanup function to clear the interval when the component is unmounted
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
     // Scroll to the bottom when the transcript incresses
     divRef.current.scrollTop = divRef.current.scrollHeight;
   }, [transcript]); // Assuming transcript is a prop or state that changes
+
+  const initialTime = 10 * 60; // 10 minutes converted to seconds
+  const [time, setTime] = useState(initialTime);
+  const [endSession, setEndSession] = useState(false);
+
+  useEffect(() => {
+    let timer;
+
+    if (!endSession && time > 0) {
+      timer = setInterval(() => {
+        setTime((prevTime) => prevTime - 1);
+      }, 1000);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [endSession, time]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+
+  const handleEndSession = () => {
+    setEndSession(true);
+    resetTranscript();
+    setVoiceStatus(false);
+    setVideoStatus(false);
+  };
+
+  const handleSend = () => {
+    resetTranscript();
+    setVoiceStatus(false);
+  };
 
   const handleVoice = () => {
     if (!voiceStatus) {
@@ -63,23 +92,6 @@ export default function MockTestPage() {
       SpeechRecognition.stopListening();
     }
   };
-  const startingMinutes = 10;
-  let time = startingMinutes * 60;
-
-  function updateCountdown() {
-    const remainingMinutes = Math.floor(time / 60);
-    const remainingSeconds = time % 60;
-
-    const formattedSeconds =
-      remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
-
-    setMinutes(remainingMinutes);
-    setSeconds(formattedSeconds);
-
-    if (time > 0) {
-      time--;
-    }
-  }
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-100">
@@ -105,11 +117,15 @@ export default function MockTestPage() {
             </p>
             <div>
               <h3 className="font-semi-bold text-lg">Time elapsed:</h3>
-              <h4 className="font-black text-[50px]">
-                {minutes}:{seconds}
-              </h4>
+              <h4 className="font-black text-[50px]">{formatTime(time)}</h4>
             </div>
-            <button className="p-3 bg-red-400 hover:bg-red-300 transition duration-300 text-white rounded-full">
+            <button
+              className={`p-3 bg-red-500 ${
+                endSession ? `bg-gray-300` : `hover:bg-red-400`
+              } transition duration-300 text-white rounded-full`}
+              onClick={handleEndSession}
+              disabled={endSession}
+            >
               End Session
             </button>
           </div>
@@ -159,7 +175,7 @@ export default function MockTestPage() {
             </div>
             <button
               className="h-11 w-11 justify-self-center self-center bg-zinc-500 hover:bg-zinc-700 transition duration-300 rounded-full text-white"
-              onClick={resetTranscript}
+              onClick={handleSend}
             >
               <SendOutlined />
             </button>
