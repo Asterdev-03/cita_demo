@@ -23,7 +23,12 @@ export default function LandingPage() {
                 creative content, and answer your questions in an informative
                 way.
               </p>
-              <Image src="/images/fulllogo.png" height={200} width={400} />
+              <Image
+                src="/images/fulllogo.png"
+                height={200}
+                width={400}
+                alt="logo"
+              />
             </div>
             <div className="w-1/3 p-4">
               <h3 className="text-2xl font-bold">Answer questions</h3>
