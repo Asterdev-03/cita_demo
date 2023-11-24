@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -6,12 +6,15 @@ export default function LandingPage() {
       <div className="flex flex-col min-h-screen bg-white">
         <div className="bg-gradient-to-r from-blue-400 to-purple-400 flex flex-col items-center justify-center h-screen">
           <h1 className="text-white text-6xl font-bold">CITA</h1>
-          <p className="text-white text-lg">
+          <p className="text-white text-lg mb-2">
             The most powerful conversational AI ever created.
           </p>
-          <button className="bg-white text-purple-500 px-4 py-2 rounded-md font-bold">
+          <Link
+            href="/setup"
+            className="bg-white mb-2 text-purple-500 px-4 py-2 rounded-md font-bold"
+          >
             Get started
-          </button>
+          </Link>
         </div>
         <div className="container mx-auto py-16">
           <h2 className="text-3xl font-bold text-center">Features</h2>
@@ -23,12 +26,6 @@ export default function LandingPage() {
                 creative content, and answer your questions in an informative
                 way.
               </p>
-              <Image
-                src="/images/fulllogo.png"
-                height={200}
-                width={400}
-                alt="logo"
-              />
             </div>
             <div className="w-1/3 p-4">
               <h3 className="text-2xl font-bold">Answer questions</h3>
