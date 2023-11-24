@@ -118,7 +118,7 @@ export default function MockTestPage() {
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-100">
-      <nav className="p-3 flex justify-between items-center bg-white/70 border border-b-3 border-gray-200">
+      <nav className="p-3 flex justify-between items-center bg-white/70 border-b-3 border-gray-200 shadow-md">
         <Image
           src="/images/fulllogo.png"
           alt="logo"

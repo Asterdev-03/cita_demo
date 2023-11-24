@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { UserOutlined, FileDoneOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import Image from "next/image";
+import { Avatar } from "antd";
 
 const Upload = () => {
   const [file1, setFile1] = useState("");
@@ -30,16 +32,26 @@ const Upload = () => {
 
   return (
     <div>
+      <nav className="p-3 flex justify-between items-center bg-white/70 border-b-3 border-gray-200 shadow-md">
+        <Image
+          src="/images/fulllogo.png"
+          alt="logo"
+          height={60}
+          width={110}
+          sizes="100vw"
+        />
+        <Avatar size={40} icon={<UserOutlined />} />
+      </nav>
       <div className="flex gap-24 mt-12 justify-center">
         <div
-          className={`w-24 h-24 text-4xl ${
+          className={`w-24 h-24 text-4xl text-white shadow-lg ${
             file1 ? "bg-green-700" : "bg-red-700"
           } rounded-full flex text-center items-center justify-center`}
         >
           <UserOutlined />
         </div>
         <div
-          className={`w-24 h-24 text-4xl ${
+          className={`w-24 h-24 text-4xl text-white shadow-lg ${
             file2 ? "bg-green-700" : "bg-red-700"
           } rounded-full flex text-center items-center justify-center`}
         >
